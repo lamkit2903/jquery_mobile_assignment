@@ -1,0 +1,151 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+	 <meta charset="UTF-8">
+	<title>DrugsKnow</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="jquery.mobile.structure-1.0.1.css" />
+	<link rel="stylesheet" href="jquery.mobile-1.0.1.css" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery.mobile-1.0.1.min.js"></script>
+	<style>	
+	#fav {
+	  background: #66b3ff;
+	  color: white;
+	}
+	
+	#drugslist {
+	  background: #00cc66;
+	  color: white;
+	}
+</style>
+	<script>
+		$(document).ready(function() {
+			
+			var userid = localStorage.getItem("lgid");
+		
+			if (userid == "") {
+				$("#favourite").css("display", "none");
+			}
+			else {
+				$("#favourite").css("display", "inline");
+			}
+			
+			$.getJSON('favouritelist.php?userid='+userid+'', function(data) {
+				$.each(data, function(key, val) {
+					if (val.lista != "") {
+						$('#favourite').append(val.lista);
+						$('#list1').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_1").href = "acetaminophen.php?uid="+userid;
+					}
+					
+					if (val.listb != "") {
+						$('#favourite').append(val.listb);
+						$('#list2').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_2").href = "adderall.php?uid="+userid;
+					}
+					
+					if (val.listc != "") {
+						$('#favourite').append(val.listc);
+						$('#list3').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_3").href = "baclofen.php?uid="+userid;
+					}
+					
+					if (val.listd != "") {
+						$('#favourite').append(val.listd);
+						$('#list4').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_4").href = "carbamazepine.php?uid="+userid;
+					}
+					
+					if (val.liste != "") {
+						$('#favourite').append(val.liste);
+						$('#list5').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_5").href = "demerol.php?uid="+userid;
+					}
+					
+					if (val.listf != "") {
+						$('#favourite').append(val.listf);
+						$('#list6').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_6").href = "lamictal.php?uid="+userid;
+					}
+					
+					if (val.listg != "") {
+						$('#favourite').append(val.listg);
+						$('#list7').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_7").href = "QNASL.php?uid="+userid;
+					}
+					
+					if (val.listh != "") {
+						$('#favourite').append(val.listh);
+						$('#list8').remove();
+						$('#favourite').listview("refresh");
+						document.getElementById("list_8").href = "Valacyclovir.php?uid="+userid;
+					}
+				});
+			});
+			
+			document.getElementById("list_1").href = "acetaminophen.php?uid="+userid;
+			document.getElementById("list_2").href = "adderall.php?uid="+userid;
+			document.getElementById("list_3").href = "baclofen.php?uid="+userid;
+			document.getElementById("list_4").href = "carbamazepine.php?uid="+userid;
+			document.getElementById("list_5").href = "demerol.php?uid="+userid;
+			document.getElementById("list_6").href = "lamictal.php?uid="+userid;
+			document.getElementById("list_7").href = "QNASL.php?uid="+userid;
+			document.getElementById("list_8").href = "Valacyclovir.php?uid="+userid;
+			
+			$("#hbtn").click(function(){
+				window.location = "index.html";
+			});
+});
+	</script>
+</head> 
+<body> 
+<div id="choisir_ville" data-role="page" >
+	
+	<div data-role="header"> 
+		 <table data-role="table" class="ui-responsive" width="100%">
+				<tr>
+					<td><button id="hbtn" data-icon="home"><h1>home</h1></button></td>
+					<td><h4>Drugs</h4></td>
+				</tr>
+			</table>
+	</div> 
+
+	<div data-role="content">
+	
+	<div class="choice_list"> 
+	<h1> Which drug do you want to know? </h1>
+	
+	<ul data-role="listview" data-inset="true" data-filter="true"  >
+		<li id="drugslist"> <h4>Drugs List</h4> </li>
+		<li id="list1"><a href=#  rel="external" id="list_1"> Acetaminophen </a></li>
+		<li id="list2"><a href=#  rel="external" id="list_2"> Adderall </a> </li>
+		<li id="list3"><a href=#  rel="external" id="list_3"> Baclofen </a> </li>
+		<li id="list4"><a href=#  rel="external" id="list_4"> Carbamazepine </a> </li>
+		<li id="list5"><a href=#  rel="external" id="list_5"> Demerol </a> </li>	
+		<li id="list6"><a href=#  rel="external" id="list_6"> Lamictal </a> </li>
+		<li id="list7"><a href=#  rel="external" id="list_7"> QNASL </a> </li>
+		<li id="list8"><a href=#  rel="external" id="list_8"> Valacyclovir </a> </li>
+	</ul>
+	<ul id="favourite" data-role="listview" data-inset="true">
+		<li id="fav"> <h4>Favourite</h4> </li>
+	</ul>
+	</div>
+	
+	</div>
+	
+	<div data-role="footer" style="text-align:center;">
+	<h4></h4>
+	</div>
+	
+	
+</div><!-- /page -->
+</body>
+</html>

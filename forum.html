@@ -1,0 +1,123 @@
+<!DOCTYPE html> 
+<html> 
+	<head>
+  <meta charset="UTF-8">	
+	<title>DrugsKnow</title> 
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="jquery.mobile.structure-1.0.1.css" />
+	<link rel="stylesheet" href="jquery.mobile-1.0.1.css" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/jquery.mobile-1.0.1.min.js"></script>
+<script>
+$(document).ready(function() {
+	var checklogin = localStorage.getItem("lgname");
+	var userid = localStorage.getItem("lgid");
+	
+	$.getJSON('postjson.php', function(data) {
+        $.each(data, function(key, val) {
+            $('#listID').append('<li><a href=topic.php?topic_id=' + val.topic_id + '&topic_sub='+ val.topic_sub +' rel="external"><h4>' + val.topic_date + '</h4> Topic: ' + val.topic_sub + ' <h3>Writer: ' + val.topic_by + ' ' + '</h3></a></li>');
+		});
+			$('#listID').listview("refresh");
+	});
+	
+	
+	$("#newpost").click(function(){			
+		if (!checklogin.trim()) {
+			localStorage.setItem("clickedforum", "clicked");
+			window.location = "login.html";
+		}
+		else {
+			$(location).attr('href',"#createPost");
+		}
+    });
+	
+	$("#createpost").click(function() {
+			
+				var URLs="forum.php";
+			  
+				var autor = userid;
+
+				var topic = $("#topic").val();
+				
+				var content = $("#messageText").val();
+			
+				var myData = "userid="+ userid + "&topic=" + topic + "&content=" + content; 			
+				
+				$.ajax({
+					url: URLs,
+					data: myData,
+					type:"POST",	
+					dataType:'text',
+
+					success: function(msg){	
+						$(location).attr('href',"#forumPage");
+						location.reload();
+					},
+
+					 error:function(xhr, ajaxOptions, thrownError){
+						alert(xhr.status);
+						alert(thrownError);
+					 }
+				});
+   
+	});
+	
+	$("#hbtn").click(function(){
+        window.location = "index.html";
+    });
+});
+
+       
+</script>
+</head> 
+
+<body> 
+ 
+    <div data-role="page" id="forumPage" data-theme="c">
+        <div data-role="header">
+            <table data-role="table" class="ui-responsive" width="100%">
+				<tr>
+					<td><button id="hbtn" data-icon="home"><h1>home</h1></button></td>
+					<td><h4>Forum</h4></td>
+				</tr>
+			</table>
+        </div>
+
+        <div data-role="content">
+		<ul data-role="listview" data-inset="true" id="listID">
+		</ul>
+        </div>
+
+        <div data-role="footer">
+            <button id="newpost">New Post</button>
+			<a href="mypost.html" rel="external" data-role="button">My Post</a>
+			<a href="myreply.html" rel="external" data-role="button">My Reply</a>
+        </div>
+    </div>
+
+    <div data-role="page" id="createPost" data-role="page" data-theme="a">
+
+        <div data-role="header">
+            <h1>Creat Post</h1>
+        </div>
+
+        <div data-role="content">
+		<label for="topic"><strong>Topic:</strong></label>
+        <input type="text" name="topic" id="topic">
+        <label for="messageText"><strong>Content:</strong></label>
+        <textarea name="messageText" id="messageText"></textarea>
+
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a"><a href="#forumPage" id="goBackButton" data-role="button">Go Back</a></div>
+            <div class="ui-block-b"><button data-theme="a" id="createpost" name="createpost">Create</input>
+        </fieldset>
+        </div>
+
+        <div data-role="footer">
+            <h4></h4>
+        </div>
+    </div>
+ 
+</body>
+</html>
